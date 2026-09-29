@@ -1,0 +1,10 @@
+{
+  "name": "FORM Progress Tracker",
+  "short_name": "FORM",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#070707",
+  "theme_color": "#070707",
+  "description": "Private progress photo tracker",
+  "icons": []
+}

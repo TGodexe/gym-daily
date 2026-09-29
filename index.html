@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="description" content="เว็บส่วนตัวสำหรับบันทึกและเปรียบเทียบ Progress Photos" />
+  <title>FORM // Progress Tracker</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="FORM Progress Tracker">
+      <span class="brand-mark">⌁</span>
+      <span>FORM<span class="muted"> //</span></span>
+    </a>
+    <button id="menuBtn" class="icon-btn mobile-only" aria-label="เปิดเมนู">☰</button>
+    <nav id="nav" class="nav">
+      <a href="#home" data-nav="home">HOME</a>
+      <a href="#add" data-nav="add">ADD PHOTO</a>
+      <a href="#compare" data-nav="compare">COMPARE</a>
+      <a href="#timeline" data-nav="timeline">TIMELINE</a>
+      <a href="#backup" data-nav="backup">BACKUP</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="page active">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">PRIVATE BODY PROGRESS LOG</p>
+          <h1>TRACK THE<br><span>CHANGE.</span></h1>
+          <p class="hero-copy">บันทึกรูป Front / Side / Back รายวัน แล้วนำมาเทียบกันแบบ Before / After โดยข้อมูลอยู่ในอุปกรณ์ของคุณ</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#add">+ ADD TODAY</a>
+            <a class="btn ghost" href="#compare">COMPARE</a>
+          </div>
+        </div>
+        <div class="hero-card sigil-card">
+          <div class="sigil" aria-hidden="true">⌁<br>╳<br>⟐</div>
+          <div class="status-row"><span>LOCAL STORAGE</span><strong>PRIVATE</strong></div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span>ENTRIES</span>
+          <strong id="statEntries">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>LATEST WEIGHT</span>
+          <strong id="statWeight">—</strong>
+        </article>
+        <article class="stat-card">
+          <span>LATEST WAIST</span>
+          <strong id="statWaist">—</strong>
+        </article>
+        <article class="stat-card">
+          <span>STREAK</span>
+          <strong id="statStreak">0 DAYS</strong>
+        </article>
+      </div>
+
+      <section class="panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">RECENT</p>
+            <h2>Latest entries</h2>
+          </div>
+          <a href="#timeline" class="text-link">VIEW ALL →</a>
+        </div>
+        <div id="recentGrid" class="photo-grid empty-wrap">
+          <div class="empty-state">
+            <div class="empty-icon">＋</div>
+            <h3>ยังไม่มี Progress Photo</h3>
+            <p>เริ่มจากเพิ่มรูปของวันนี้ก่อน</p>
+            <a class="btn primary" href="#add">ADD FIRST ENTRY</a>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="add" class="page">
+      <div class="page-head">
+        <div>
+          <p class="eyebrow">NEW ENTRY</p>
+          <h1>ADD PROGRESS</h1>
+        </div>
+        <p>พยายามใช้แสง ระยะกล้อง และท่าเดิมทุกครั้งเพื่อเทียบได้แม่นขึ้น</p>
+      </div>
+
+      <form id="entryForm" class="panel form-panel">
+        <div class="form-grid">
+          <label>
+            <span>DATE</span>
+            <input type="date" id="entryDate" required />
+          </label>
+          <label>
+            <span>WEIGHT (KG)</span>
+            <input type="number" id="weight" step="0.1" min="0" placeholder="72.5" />
+          </label>
+          <label>
+            <span>WAIST (CM)</span>
+            <input type="number" id="waist" step="0.1" min="0" placeholder="80" />
+          </label>
+          <label>
+            <span>BODY FAT (%)</span>
+            <input type="number" id="bodyfat" step="0.1" min="0" max="100" placeholder="15" />
+          </label>
+        </div>
+
+        <div class="upload-grid">
+          <div class="upload-slot" data-slot="front">
+            <input type="file" id="frontInput" accept="image/*" capture="environment" hidden />
+            <button type="button" class="upload-trigger" data-input="frontInput">
+              <span class="slot-tag">FRONT</span>
+              <span class="plus">＋</span>
+              <span>UPLOAD PHOTO</span>
+            </button>
+            <img id="frontPreview" class="preview" alt="Front preview" hidden />
+            <button type="button" class="remove-photo" data-remove="front" hidden>REMOVE</button>
+          </div>
+
+          <div class="upload-slot" data-slot="side">
+            <input type="file" id="sideInput" accept="image/*" capture="environment" hidden />
+            <button type="button" class="upload-trigger" data-input="sideInput">
+              <span class="slot-tag">SIDE</span>
+              <span class="plus">＋</span>
+              <span>UPLOAD PHOTO</span>
+            </button>
+            <img id="sidePreview" class="preview" alt="Side preview" hidden />
+            <button type="button" class="remove-photo" data-remove="side" hidden>REMOVE</button>
+          </div>
+
+          <div class="upload-slot" data-slot="back">
+            <input type="file" id="backInput" accept="image/*" capture="environment" hidden />
+            <button type="button" class="upload-trigger" data-input="backInput">
+              <span class="slot-tag">BACK</span>
+              <span class="plus">＋</span>
+              <span>UPLOAD PHOTO</span>
+            </button>
+            <img id="backPreview" class="preview" alt="Back preview" hidden />
+            <button type="button" class="remove-photo" data-remove="back" hidden>REMOVE</button>
+          </div>
+        </div>
+
+        <label class="full-label">
+          <span>NOTE</span>
+          <textarea id="note" rows="4" placeholder="เช่น วันนี้ถ่ายหลังตื่นนอน / แสงธรรมชาติ / หลังพัก 1 วัน"></textarea>
+        </label>
+
+        <div class="privacy-note">
+          <strong>PRIVATE BY DEFAULT</strong>
+          <span>รูปจะถูกเก็บใน IndexedDB ของเบราว์เซอร์นี้ ไม่ได้อัปโหลดออกไปที่เซิร์ฟเวอร์</span>
+        </div>
+
+        <button class="btn primary wide" type="submit">SAVE ENTRY</button>
+        <p id="formMessage" class="form-message" role="status"></p>
+      </form>
+    </section>
+
+    <section id="compare" class="page">
+      <div class="page-head">
+        <div>
+          <p class="eyebrow">BEFORE / AFTER</p>
+          <h1>COMPARE</h1>
+        </div>
+        <p>เลือก 2 วันที่ แล้วลากเส้นกลางภาพเพื่อดูความแตกต่าง</p>
+      </div>
+
+      <div class="panel">
+        <div class="compare-controls">
+          <label>
+            <span>BEFORE</span>
+            <select id="beforeSelect"></select>
+          </label>
+          <label>
+            <span>AFTER</span>
+            <select id="afterSelect"></select>
+          </label>
+          <div class="pose-tabs" role="tablist" aria-label="Pose">
+            <button type="button" class="pose-tab active" data-pose="front">FRONT</button>
+            <button type="button" class="pose-tab" data-pose="side">SIDE</button>
+            <button type="button" class="pose-tab" data-pose="back">BACK</button>
+          </div>
+        </div>
+
+        <div id="compareEmpty" class="empty-state compare-empty">
+          <h3>ต้องมีอย่างน้อย 2 วันที่มีรูป</h3>
+          <p>เพิ่ม Progress Photo ก่อน แล้วกลับมาเปรียบเทียบได้ทันที</p>
+        </div>
+
+        <div id="compareArea" class="compare-area" hidden>
+          <div class="compare-stage" id="compareStage">
+            <img id="afterImage" class="compare-image after-image" alt="After" />
+            <div id="beforeClip" class="before-clip">
+              <img id="beforeImage" class="compare-image before-image" alt="Before" />
+            </div>
+            <div id="compareHandle" class="compare-handle">
+              <span>↔</span>
+            </div>
+            <input id="compareRange" class="compare-range" type="range" min="0" max="100" value="50" aria-label="เลื่อนเปรียบเทียบรูปก่อนและหลัง" />
+            <span class="compare-label left">BEFORE</span>
+            <span class="compare-label right">AFTER</span>
+          </div>
+
+          <div class="compare-meta">
+            <article>
+              <span id="beforeDateLabel">—</span>
+              <strong id="beforeWeightLabel">—</strong>
+              <small id="beforeWaistLabel">—</small>
+            </article>
+            <div class="delta">
+              <span>CHANGE</span>
+              <strong id="weightDelta">—</strong>
+              <small id="waistDelta">—</small>
+            </div>
+            <article class="right-meta">
+              <span id="afterDateLabel">—</span>
+              <strong id="afterWeightLabel">—</strong>
+              <small id="afterWaistLabel">—</small>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline" class="page">
+      <div class="page-head">
+        <div>
+          <p class="eyebrow">HISTORY</p>
+          <h1>TIMELINE</h1>
+        </div>
+        <div class="timeline-tools">
+          <select id="timelinePose">
+            <option value="front">FRONT</option>
+            <option value="side">SIDE</option>
+            <option value="back">BACK</option>
+          </select>
+          <button id="clearAllBtn" class="btn danger" type="button">DELETE ALL</button>
+        </div>
+      </div>
+      <div id="timelineList" class="timeline-list"></div>
+    </section>
+
+    <section id="backup" class="page">
+      <div class="page-head">
+        <div>
+          <p class="eyebrow">DATA</p>
+          <h1>BACKUP</h1>
+        </div>
+        <p>ไฟล์ Backup จะรวมข้อมูลและรูปทั้งหมด จึงควรเก็บไว้ในที่ส่วนตัว</p>
+      </div>
+
+      <div class="backup-grid">
+        <div class="panel backup-card">
+          <span class="backup-icon">⇩</span>
+          <h2>EXPORT</h2>
+          <p>ดาวน์โหลด Backup เป็นไฟล์ JSON เพื่อย้ายข้อมูลไปเครื่องอื่นหรือเก็บสำรอง</p>
+          <button id="exportBtn" class="btn primary" type="button">EXPORT BACKUP</button>
+        </div>
+
+        <div class="panel backup-card">
+          <span class="backup-icon">⇧</span>
+          <h2>IMPORT</h2>
+          <p>นำไฟล์ Backup ที่เคย Export กลับเข้ามา ข้อมูลวันที่ซ้ำจะถูกแทนที่</p>
+          <input id="importInput" type="file" accept="application/json,.json" hidden />
+          <button id="importBtn" class="btn ghost" type="button">IMPORT BACKUP</button>
+        </div>
+      </div>
+
+      <div class="panel info-panel">
+        <h3>เกี่ยวกับความเป็นส่วนตัว</h3>
+        <p>เว็บนี้ไม่มีระบบบัญชี ไม่มี Analytics และไม่มีการส่งรูปไปยัง API ภายนอก ข้อมูลทั้งหมดอยู่ในพื้นที่จัดเก็บของเบราว์เซอร์ที่คุณใช้อยู่ เว้นแต่คุณกด Export เอง</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
